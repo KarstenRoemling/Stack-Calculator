@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Calculator
+comment0.text=\r\n\ Beschreiben\ Sie\ hier\ die\ Klasse\ Calculator.\r\n\ \r\n\ @author\ (Ihr\ Name)\ \r\n\ @version\ (eine\ Versionsnummer\ oder\ ein\ Datum)\r\n
+comment1.params=term
+comment1.target=java.lang.String[]\ getListNotation(java.lang.String)
+comment2.params=term
+comment2.target=java.lang.String\ getParsedString(java.lang.String)
+comment3.params=term
+comment3.target=int\ calculate(java.lang.String)
+comment4.params=pString
+comment4.target=boolean\ isOperator(java.lang.String)
+comment5.params=pString
+comment5.target=boolean\ isNumber(java.lang.String)
+comment6.params=pString
+comment6.target=int\ getInt(java.lang.String)
+numComments=7
