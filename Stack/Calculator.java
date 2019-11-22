@@ -15,6 +15,9 @@ public class Calculator
         return Calculator.getParsedString(term).split(",");
     }
     
+    /**
+     * Converts a term into the list notation (but still as a string) and returns it.
+     */
     public static String getParsedString(String term) {
         boolean selecting = false;
         String selection = "";
@@ -26,6 +29,10 @@ public class Calculator
         for(int i = 0; i < term.length(); i++) {
             
             String charString = term.substring(i, i+1);
+            
+            if(charString.equals(",")) {
+                charString = ".";
+            }
             
             if(charString.equals(" ")) {
                 continue;
@@ -58,7 +65,7 @@ public class Calculator
                 continue;
             }
             
-            if(Calculator.isNumber(charString)) {
+            if(Calculator.isNumber(charString) || charString.equals(".")) {
                 if(operator == "") {
                     left += charString;
                 } else {
@@ -68,16 +75,35 @@ public class Calculator
             }
             
             if(Calculator.isOperator(charString)) {
-                operator = charString;
+                if(operator != "" && right != "") {
+                    right += charString;
+                }
+                if(left != "") {
+                    operator = charString;
+                    continue;
+                }
+                left += charString;
+                continue;
             }
             
         }
         
-        return operator + "," + left + "," + right;
+        return Calculator.getTermString(operator, left, right);
     }
     
-    public static int calculate(String term) {
+    /**
+     * Calculates a result of a term in list notation (given as parameter), returns double (result of calculation)
+     */
+    public static double calculate(String term) {
         String[] listNotation = Calculator.getListNotation(term);
+        
+        if(listNotation.length == 0) {
+            return 0;
+        }
+        
+        if(listNotation.length == 1 && Calculator.isNumber(listNotation[0])) {
+            return Calculator.getDouble(listNotation[0]);
+        }
         
         Stack<String> firstStack = new Stack<String>();
         Stack<String> secondStack = new Stack<String>();
@@ -86,14 +112,13 @@ public class Calculator
             firstStack.push(listNotation[i]);
         }
         
-        while(true) {
+        while(!firstStack.isEmpty()) {
             String termElement = firstStack.pop();
             
             if(Calculator.isOperator(termElement)) {
                 
-                int num1 = Calculator.getInt(secondStack.pop());
-                int num2 = Calculator.getInt(secondStack.pop());
-                boolean leave = firstStack.isEmpty();
+                double num1 = Calculator.getDouble(secondStack.pop());
+                double num2 = Calculator.getDouble(secondStack.pop());
                 
                 switch(termElement) {
                     case "+":
@@ -110,13 +135,26 @@ public class Calculator
                         break;
                 }
                 
-                if(leave) {
-                    return Calculator.getInt(secondStack.top());
-                }
-                
             } else {
                 secondStack.push(termElement);
             }
+            
+        }
+        
+        return Calculator.getDouble(secondStack.top());
+    }
+    
+    public static String getTermString(String operator, String left, String right) {
+        if(operator != "" && left != "" && right != "") {
+            return operator + "," + left + "," + right;
+        } else {
+            if(right != "") {
+                return right;
+            }
+            if(left != "") {
+                return left;
+            }
+            return "";
         }
     }
     
@@ -124,11 +162,11 @@ public class Calculator
         return "+-*/".contains(pString);
     }
     
-    public static boolean isNumber(String pString) {
-        return "0123456789".contains(pString);
+    public static boolean isNumber(String str) {
+        return str.matches("-?\\d+(\\.\\d+)?");
     }
     
-    public static int getInt(String pString) {
-        return Integer.parseInt(pString);
+    public static double getDouble(String pString) {
+        return Double.parseDouble(pString);
     }
 }

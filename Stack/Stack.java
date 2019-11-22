@@ -8,7 +8,7 @@
 public class Stack<T>
 {
     
-    private StackNode top;
+    private StackNode head;
     
     private class StackNode {
         
@@ -38,37 +38,46 @@ public class Stack<T>
     }
     
     public Stack() {
-        top = null;
+        head = null;
     }
     
     public T top() {
         if(isEmpty()) {
             return null;
         }
-        return top.getContent();
+        return head.getContent();
     }
     
     public void push(T pContent) {
         StackNode node = new StackNode(pContent);
-        node.setNext(top);
-        top = node;
+        node.setNext(head);
+        head = node;
     }
     
     public boolean isEmpty() {
-        return top == null;
+        return head == null;
     }
     
+    /**
+     * WICHTIG!
+     * 
+     * Die pop-Methode muss so in der Klausur nicht implementiert werden.
+     * Der alte Head muss nicht zurückgegeben werden. Es genügt daher:
+     * 
+     * public void pop() {
+     *     if(!isEmpty()) {
+     *          head = head.getNext();
+     *     }
+     * }
+     * 
+     */
     public T pop() {
         if(isEmpty()) {
             return null;
         }
-        StackNode node = top;
-        top = top.getNext();
+        StackNode node = head;
+        head = head.getNext();
         return node.getContent();
-    }
-    
-    public void clear() {
-        top = null;   
     }
     
 }

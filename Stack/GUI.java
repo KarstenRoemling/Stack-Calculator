@@ -4,11 +4,11 @@ import javax.swing.*;
 
 
 /**
- * Beschreiben Sie hier die Klasse GUI.
- * 
- * @author (Ihr Name) 
- * @version (eine Versionsnummer oder ein Datum)
- */
+* Gryphical User Interface (GUI) of the Calculator
+* 
+* @author (Ihr Name) 
+* @version (eine Versionsnummer oder ein Datum)
+*/
 public class GUI
 {
     private JFrame f;
@@ -18,7 +18,7 @@ public class GUI
     private JButton submit;
     
     public GUI() {
-        f = new JFrame();
+        f = new JFrame("Rechenterme berechnen by Karsten Römling");
         heading = new JLabel("Rechenterme");
         result = new JLabel();
         input = new JTextField();
@@ -28,7 +28,7 @@ public class GUI
         heading.setFont(new Font("Arial", Font.PLAIN, 50));
         f.add(heading);
         
-        result.setBounds(30,240,200,40);
+        result.setBounds(30,240,400,40);
         result.setFont(new Font("Arial", Font.PLAIN, 30));
         f.add(result);
         
@@ -42,16 +42,14 @@ public class GUI
         
         submit.addActionListener(new ActionListener(){  
             public void actionPerformed(ActionEvent e){  
-                result.setText(String.valueOf(Calculator.calculate(input.getText())));
-                input.setText("");
+                doCalculation();
             }
         });
         
         input.addKeyListener(new KeyAdapter(){
             public void keyReleased(KeyEvent k){
                 if(k.getKeyCode() == KeyEvent.VK_ENTER){
-                    result.setText(String.valueOf(Calculator.calculate(input.getText())));
-                    input.setText("");
+                    doCalculation();
                 }
             }
         });
@@ -59,6 +57,24 @@ public class GUI
         f.setSize(800, 500);
         f.setLayout(null);
         f.setVisible(true);
+    }
+    
+    /**
+     * Calculates term and displays result of the calculation (or "SYNTAX ERROR", if there is an error)
+     */
+    public void doCalculation() {
+        String term = input.getText().length() > 0 ? input.getText() : "0";
+        String calculationResult;
+        try {
+            calculationResult = String.valueOf(Calculator.calculate(term));
+            if(calculationResult.substring(calculationResult.length() - 2, calculationResult.length()).equals(".0")) {
+                calculationResult = calculationResult.substring(0, calculationResult.length() - 2);
+            }
+        } catch (Exception e) {
+            calculationResult = "SYNTAX ERROR!";
+        }
+        result.setText(calculationResult);
+        input.setText("");
     }
     
 }

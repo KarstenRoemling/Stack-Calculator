@@ -11,6 +11,5 @@ comment4.params=
 comment4.target=boolean\ isEmpty()
 comment5.params=
 comment5.target=java.lang.Object\ pop()
-comment6.params=
-comment6.target=void\ clear()
-numComments=7
+comment5.text=\r\n\ WICHTIG\!\r\n\ \r\n\ Die\ pop-Methode\ muss\ so\ in\ der\ Klausur\ nicht\ implementiert\ werden.\r\n\ Der\ alte\ Head\ muss\ nicht\ zur\u00FCckgegeben\ werden.\ Es\ gen\u00FCgt\ daher\:\r\n\ \r\n\ public\ void\ pop()\ {\r\n\ \ \ \ \ if(\!isEmpty())\ {\r\n\ \ \ \ \ \ \ \ \ \ head\ \=\ head.getNext();\r\n\ \ \ \ \ }\r\n\ }\r\n\ \r\n
+numComments=6
